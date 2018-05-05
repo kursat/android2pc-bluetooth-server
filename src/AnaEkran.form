@@ -29,7 +29,7 @@
             </constraints>
             <properties>
               <text value="Gönder"/>
-              <visible value="true"/>
+              <visible value="false"/>
             </properties>
           </component>
           <component id="b6df" class="javax.swing.JTextField" binding="mesajAlani">
@@ -38,7 +38,9 @@
                 <preferred-size width="150" height="-1"/>
               </grid>
             </constraints>
-            <properties/>
+            <properties>
+              <visible value="false"/>
+            </properties>
           </component>
           <component id="adae9" class="javax.swing.JLabel" binding="mesajEtiketi">
             <constraints>
@@ -46,6 +48,7 @@
             </constraints>
             <properties>
               <text value="Mesaj:"/>
+              <visible value="false"/>
             </properties>
           </component>
           <component id="15161" class="javax.swing.JTextArea" binding="tumMesajlar">

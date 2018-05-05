@@ -1,8 +1,10 @@
 import javax.bluetooth.RemoteDevice;
 import javax.microedition.io.StreamConnection;
+import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 public class BluetoothBaglantisi extends Thread {
@@ -70,9 +72,14 @@ public class BluetoothBaglantisi extends Thread {
             if ((line = mesajiOku()) == null) {
                 baglantiyiDinle = false;
             } else {
-                System.out.println("  " + baglantiAdi + " --> " + line);
             }
         }
+    }
+
+    public static String toHexadecimal(String text) throws UnsupportedEncodingException {
+        byte[] myBytes = text.getBytes("UTF-8");
+
+        return DatatypeConverter.printHexBinary(myBytes);
     }
 
     private String mesajiOku() {
@@ -81,7 +88,7 @@ public class BluetoothBaglantisi extends Thread {
         try {
             int len = in.read();
             if (len <= 0) {
-                System.out.println("Mesaj uzunluğu hatası: " + baglantiAdi);
+//                System.out.println("Mesaj uzunluğu hatası: " + baglantiAdi);
                 return "";
             } else {
                 data = new byte[len];
@@ -103,7 +110,15 @@ public class BluetoothBaglantisi extends Thread {
         // Gelen mesajı mesaj geçmişine ekliyoruz.
         String message = new String(data).trim();
 
-        mesajGecmisi.add("  " + baglantiAdi + " --> " + message);
+        mesajGecmisi.add("  " + baglantiAdi + " <-- " + message);
+        System.out.println("  " + baglantiAdi + " <-- " + message);
+
+        try {
+            this.mesajiGonder(this.toHexadecimal(message));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
         return message;
     }
 
@@ -114,8 +129,8 @@ public class BluetoothBaglantisi extends Thread {
             out.write(message.getBytes());
             out.flush();
             // Gönderilen mesajı mesaj geçmişine ekliyoruz.
-            mesajGecmisi.add("  " + baglantiAdi + " <-- " + message);
-            System.out.println("  " + baglantiAdi + " <-- " + message);
+            mesajGecmisi.add("  " + baglantiAdi + " --> " + message);
+            System.out.println("  " + baglantiAdi + " --> " + message);
             return true;
         } catch (IOException e) {
             System.err.println(e);
