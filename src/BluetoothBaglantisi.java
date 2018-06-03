@@ -83,9 +83,16 @@ public class BluetoothBaglantisi extends Thread {
     }
 
     public static String toDecimal(String text) throws UnsupportedEncodingException {
-        Integer decimalDegeri = Integer.parseInt(text.trim(), 16);
 
-        return decimalDegeri.toString();
+        String digits = "0123456789ABCDEF";
+        text = text.toUpperCase();
+        long val = 0;
+        for (int i = 0; i < text.length(); i++) {
+            char c = text.charAt(i);
+            int d = digits.indexOf(c);
+            val = 16 * val + d;
+        }
+        return Long.toString(val);
     }
 
     private String mesajiOku() {
