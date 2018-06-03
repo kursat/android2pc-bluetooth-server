@@ -82,6 +82,12 @@ public class BluetoothBaglantisi extends Thread {
         return DatatypeConverter.printHexBinary(myBytes);
     }
 
+    public static String toDecimal(String text) throws UnsupportedEncodingException {
+        Integer decimalDegeri = Integer.parseInt(text.trim(), 16);
+
+        return decimalDegeri.toString();
+    }
+
     private String mesajiOku() {
         // Mesajı okuyoruz.
         byte[] data = null;
@@ -114,7 +120,7 @@ public class BluetoothBaglantisi extends Thread {
         System.out.println("  " + baglantiAdi + " <-- " + message);
 
         try {
-            this.mesajiGonder(this.toHexadecimal(message));
+            this.mesajiGonder(this.toDecimal(message));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
